@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Send } from "lucide-react";
+import { Files, Send } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,6 +15,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z
@@ -29,6 +37,8 @@ const formSchema = z.object({
 });
 
 export default function ContactMe() {
+  const [open, setOpen] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,6 +54,12 @@ export default function ContactMe() {
     console.log(values);
   }
 
+  function onClick() {
+    if (navigator) navigator.clipboard.writeText("peiyuwu9@gmail.com");
+    setOpen(true);
+    setTimeout(() => setOpen(false), 700);
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -54,7 +70,7 @@ export default function ContactMe() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Peiyu Wu" {...field} />
+                <Input placeholder="Fistname Lastname" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,8 +83,24 @@ export default function ContactMe() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="peiyuwu9@gmail.com" {...field} />
+                <Input placeholder="user@mail.com" {...field} />
               </FormControl>
+              <div className="text-sm">
+                <span>Example: peiyuwu9@gmail.com</span>{" "}
+                <TooltipProvider>
+                  <Tooltip open={open}>
+                    <TooltipTrigger asChild>
+                      <Files
+                        className="inline hover:cursor-pointer h-5 w-5"
+                        onClick={onClick}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Copied to clipboard!</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
               <FormMessage />
             </FormItem>
           )}

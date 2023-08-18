@@ -1,18 +1,34 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import debounce from "lodash.debounce";
 
-import CanvasAnimation from "@/components/canvas-animate";
-import { Modal } from "@/components/ui/modal";
 import AboutMe from "@/components/about-me";
-import Projects from "@/components/projects";
+import CanvasAnimation from "@/components/canvas-animate";
 import ContactMe from "@/components/contact-me";
-import Resume from "@/components/resume";
 import Experiences from "@/components/experiences";
+import Projects from "@/components/projects";
+import Resume from "@/components/resume";
+import { Modal } from "@/components/ui/modal";
+
+import { camelCaseSeperator } from "@/lib/utils";
 
 export default function Home() {
   const [select, setSelect] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const showToast = useCallback((name: string) => {
+    const message = camelCaseSeperator(name);
+    toast(message, { id: "icon", duration: 1500 });
+  }, []);
+
+  const debouncedEvent = useCallback(
+    debounce((name: string) => {
+      showToast(name);
+    }, 300),
+    []
+  );
 
   function onClick(name: string) {
     setSelect(name);
@@ -22,6 +38,10 @@ export default function Home() {
   function onClose() {
     setSelect("");
     setIsOpen(false);
+  }
+
+  function onHover(name: string) {
+    debouncedEvent(name);
   }
 
   let modalContent: React.ReactNode | null = null;
@@ -72,10 +92,17 @@ export default function Home() {
       {modalContent}
       {useMemo(
         () => (
-          <CanvasAnimation onClick={onClick} />
+          <CanvasAnimation onClick={onClick} onHover={onHover} />
         ),
         []
       )}
+      <Toaster
+        toastOptions={{
+          style: {
+            fontWeight: 600,
+          },
+        }}
+      />
     </main>
   );
 }
