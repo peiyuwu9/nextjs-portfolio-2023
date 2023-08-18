@@ -31,6 +31,7 @@ export default function Experiences() {
     <VerticalTimeline animate={false} layout="1-column" lineColor="orange">
       {experiences.map((experience) => (
         <VerticalTimelineElement
+          key={experience.company}
           contentStyle={{ background: "none", transform: "translateY(-9px)" }}
           contentArrowStyle={{ transform: "translateY(5px)" }}
           date={experience.date}
