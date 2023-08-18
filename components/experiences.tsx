@@ -41,6 +41,7 @@ export default function Experiences() {
               alt={experience.company}
               width={50}
               height={50}
+              priority={true}
               className="rounded-full"
             />
           }

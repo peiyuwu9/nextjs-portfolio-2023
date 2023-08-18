@@ -22,6 +22,7 @@ const Project: React.FC<ProjectProps> = ({
           alt={title}
           width={150}
           height={150}
+          priority={true}
           className="rounded-full"
         />
       </div>

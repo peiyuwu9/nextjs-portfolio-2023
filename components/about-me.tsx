@@ -5,7 +5,7 @@ export default function AboutMe() {
   return (
     <div className="flex flex-row-reverse">
       <div>
-        <Image src="/profile.png" alt="Peiyu Wu" width={600} height={600} />
+        <Image src="/profile.png" alt="Peiyu Wu" width={600} height={600} priority={true}/>
       </div>
       <div className="flex flex-col space-y-2">
         <p>
