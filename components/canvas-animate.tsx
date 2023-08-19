@@ -16,7 +16,7 @@ export default function CanvasAnimation({
 }: CanvasAnimationProp) {
   function splineOnLoad(spline: Application) {
     const mobileRegx = new RegExp("/iPhone|iPad|iPod|Android", "i");
-    if (window && mobileRegx.test(navigator.userAgent)) spline.setZoom(25);
+    if (window && mobileRegx.test(navigator.userAgent)) spline.setZoom(0.25);
     onLoad();
   }
 

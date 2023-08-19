@@ -6,7 +6,7 @@ export interface LoadingPorps {
 
 const Loader: React.FC<LoadingPorps> = ({ loading }) => {
   return (
-    <div className="w-screen h-screen absolute inset-2/4">
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <BeatLoader loading={loading} color="#d8737f" />
     </div>
   );
