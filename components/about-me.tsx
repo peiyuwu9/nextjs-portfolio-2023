@@ -28,7 +28,7 @@ export default function AboutMe() {
           communication abilities to drive successful project completion and
           foster cross-functional relationships.
         </p>
-        <div className="flex flex-row space-y-1 space-x-3 items-center flex-wrap">
+        <div className="flex flex-row space-y-1 sm:space-y-0 space-x-3 items-center flex-wrap">
           <p>Specializes in</p>
           <Badge>JavaScript</Badge>
           <Badge>React</Badge>
