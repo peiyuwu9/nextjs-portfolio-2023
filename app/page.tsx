@@ -7,7 +7,7 @@ import debounce from "lodash.debounce";
 import AboutMe from "@/components/about-me";
 import CanvasAnimation from "@/components/canvas-animate";
 import ContactMe from "@/components/contact-me";
-import Experiences from "@/components/experiences";
+import ProfessionalExperiences from "@/components/professional-experiences";
 import Projects from "@/components/projects";
 import Resume from "@/components/resume";
 import { Loader } from "@/components/ui/loader";
@@ -19,6 +19,7 @@ export default function Home() {
   const [select, setSelect] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const title = camelCaseSeperator(select);
 
   const showToast = useCallback((name: string) => {
     const message = camelCaseSeperator(name);
@@ -54,39 +55,19 @@ export default function Home() {
 
   switch (select) {
     case "AboutMe":
-      modalContent = (
-        <Modal title="About Me" isOpen={isOpen} onClose={onClose}>
-          <AboutMe />
-        </Modal>
-      );
+      modalContent = <AboutMe />;
       break;
     case "Projects":
-      modalContent = (
-        <Modal title="Projects" isOpen={isOpen} onClose={onClose}>
-          <Projects />
-        </Modal>
-      );
+      modalContent = <Projects />;
       break;
-    case "Experiences":
-      modalContent = (
-        <Modal title="Experiences" isOpen={isOpen} onClose={onClose}>
-          <Experiences />
-        </Modal>
-      );
+    case "ProfessionalExperiences":
+      modalContent = <ProfessionalExperiences />;
       break;
     case "ContactMe":
-      modalContent = (
-        <Modal title="Contact Me" isOpen={isOpen} onClose={onClose}>
-          <ContactMe />
-        </Modal>
-      );
+      modalContent = <ContactMe />;
       break;
     case "Resume":
-      modalContent = (
-        <Modal title="Resume" isOpen={isOpen} onClose={onClose}>
-          <Resume />
-        </Modal>
-      );
+      modalContent = <Resume />;
       break;
     default:
       modalContent = null;
@@ -95,7 +76,11 @@ export default function Home() {
   return (
     <>
       <main>
-        {modalContent}
+        {modalContent && (
+          <Modal title={title} isOpen={isOpen} onClose={onClose}>
+            {modalContent}
+          </Modal>
+        )}
         {useMemo(
           () => (
             <CanvasAnimation

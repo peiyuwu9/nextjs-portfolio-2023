@@ -5,7 +5,7 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 
-export default function Experiences() {
+export default function ProfessionalExperiences() {
   const experiences = [
     {
       company: "Vpon Big Data Group",
