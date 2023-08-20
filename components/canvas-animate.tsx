@@ -1,27 +1,31 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import Spline, { SplineEvent } from "@splinetool/react-spline";
 import type { Application } from "@splinetool/runtime";
 
 export interface CanvasAnimationProp {
+  classname: string;
   onClick: (target: string) => void;
   onHover: (target: string) => void;
   onLoad: () => void;
 }
 
 export default function CanvasAnimation({
+  classname,
   onClick,
   onHover,
   onLoad,
 }: CanvasAnimationProp) {
   function splineOnLoad(spline: Application) {
-    const mobileRegx = new RegExp("/iPhone|iPad|iPod|Android", "i");
-    if (window && mobileRegx.test(navigator.userAgent)) spline.setZoom(0.25);
-    onLoad();
+    if (window && window.screen.width < 640) spline.setZoom(0.25);
+    setTimeout(() => {
+      onLoad();
+    }, 500);
   }
 
   return (
-    <div className="h-screen w-screen">
+    <div className={cn("h-screen w-screen", classname)}>
       <Spline
         scene="https://prod.spline.design/tMh0KzmUfYBl8oul/scene.splinecode"
         onLoad={splineOnLoad}

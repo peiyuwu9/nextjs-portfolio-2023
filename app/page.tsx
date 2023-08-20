@@ -99,12 +99,13 @@ export default function Home() {
         {useMemo(
           () => (
             <CanvasAnimation
+              classname={loading ? "opacity-0" : "opacity-100"}
               onClick={onClick}
               onHover={onHover}
               onLoad={onLoad}
             />
           ),
-          []
+          [loading]
         )}
       </main>
       <Loader loading={loading} />
