@@ -26,10 +26,10 @@ const Project: React.FC<ProjectProps> = ({
           className="rounded-full"
         />
       </div>
-      <div className="w-full sm:w-2/3 flex flex-col space-y-2 text-center sm:text-left">
+      <div className="w-full sm:w-2/3 flex flex-col space-y-2 text-left">
         <h2 className="text-xl">{title}</h2>
         <p>{description}</p>
-        <div className="flex space-x-2 translate-y-2 justify-center sm:justify-start">
+        <div className="flex space-x-2 translate-y-2 ustify-start">
           {skills.map((skill) => (
             <Badge key={skill}>{skill}</Badge>
           ))}
