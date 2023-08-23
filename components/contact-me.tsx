@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Files, Send } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
@@ -21,7 +24,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useState } from "react";
+
+import sendEmail from "@/lib/sendEmail";
 
 const formSchema = z.object({
   name: z
@@ -37,7 +41,8 @@ const formSchema = z.object({
 });
 
 export default function ContactMe() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,8 +55,23 @@ export default function ContactMe() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setLoading(true);
+      const { name, email, message } = values;
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("message", message);
+      await sendEmail(formData);
+      toast.success("Message sent successfully");
+      form.reset();
+    } catch (error) {
+      console.log(error);
+      toast.error("Message sent unsuccessfully");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function onClick() {
@@ -119,9 +139,15 @@ export default function ContactMe() {
           )}
         />
         <div className="flex justify-end">
-          <Button type="submit" variant={"secondary"}>
-            <Send className="h-4 w-4 mr-2" />
-            Submit
+          <Button type="submit" variant={"secondary"} disabled={loading}>
+            {loading ? (
+              <LoadingButton />
+            ) : (
+              <>
+                <Send className="h-4 w-4 mr-2" />
+                Send
+              </>
+            )}
           </Button>
         </div>
       </form>
